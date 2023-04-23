@@ -1,0 +1,8 @@
+# Directories
+dist/
+node_modules/
+static/uploads/*
+
+# Files
+.env
+yarn.lock
