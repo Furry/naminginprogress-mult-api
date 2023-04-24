@@ -79,6 +79,8 @@ export function Api(db: Database) {
             }
         });
 
+        endpoints = endpoints.slice(0, 10);
+
         res.json({
                 last1h,
                 last24h,
