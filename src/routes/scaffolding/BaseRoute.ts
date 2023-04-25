@@ -25,6 +25,10 @@ export function BaseRoute(db: Database) {
         next();
     });
 
+    router.get("/", (_, res) => {
+        // Send to discord server
+        res.redirect("https://discord.gg/tamVs2Ujrf");
+    })
     router.use("/api", Api(db));
     router.use("/s", Static());
 
