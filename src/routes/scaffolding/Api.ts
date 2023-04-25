@@ -33,12 +33,6 @@ export function Api(db: Database) {
         const last7d = requests.filter(r => r.at > Date.now() - 1000 * 60 * 60 * 24 * 7).length;
         const last30d = requests.filter(r => r.at > Date.now() - 1000 * 60 * 60 * 24 * 30).length;
 
-        // Get number of posts for each day in the last 30 days.
-        const posts = await Database.Instance.col("posts").find({
-            at: {
-                $gt: Date.now() - 1000 * 60 * 60 * 24 * 30
-            }
-        }).toArray();
 
         const postsByDay = requests.map(p => {
             const date = new Date(p.at);
