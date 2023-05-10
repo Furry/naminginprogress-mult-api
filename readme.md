@@ -17,16 +17,16 @@ GET /dash
  - Returns the dashboard page, a simple streamlit render showing some of the rendered statistics.
 
 POST /api/upload
-    - Uploads a file to the server, and returns the path as a url to the file
-    - The files are given a unique ID and renamed to avoid collisions and risk to the server.
-    - See src/routes/Files.ts for usage
+ - Uploads a file to the server, and returns the path as a url to the file
+ - The files are given a unique ID and renamed to avoid collisions and risk to the server.
+ - See src/routes/Files.ts for usage
 
 POST /ai/vulgarity
-    - Returns the vulgarity of the text passed in the body.
-    - Disabled in production because I can't afford a server that has more than 1gb of ram for the model :(
+ - Returns the vulgarity of the text passed in the body.
+ - Disabled in production because I can't afford a server that has more than 1gb of ram for the model :(
 
 GET /s/*
-    - Access one of the files uploaded to the server by url, this handles renaming it and normalizing extensions before it's served.
+ - Access one of the files uploaded to the server by url, this handles renaming it and normalizing extensions before it's served.
 
 GET /*
-    - Routes to my discord server for support or publicity
+ - Routes to my discord server for support or publicity
