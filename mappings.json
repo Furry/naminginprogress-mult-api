@@ -4,11 +4,26 @@
             "location": "python",
             "invoke": "python.exe",
             "entry": "ai/index.py",
+            "args": "",
             "port": 8081,
             "directs": {
                 "/ai/vulgarity": {
                     "alias": "vulgarity",
                     "method": "POST"
+                }
+            }
+        },
+        "Dashboard": {
+            "disabled": true,
+            "location": "python",
+            "invoke": "python.exe",
+            "args": "-m streamlit run",
+            "entry": "ui/index.py",
+            "port": 8501,
+            "directs": {
+                "/": {
+                    "alias": "dashboard",
+                    "method": "GET"
                 }
             }
         }

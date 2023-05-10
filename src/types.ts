@@ -10,6 +10,7 @@ export interface App {
     location: string;
     invoke: string;
     entry: string;
+    args: string;
     port: number;
     directs: Direct;
 }

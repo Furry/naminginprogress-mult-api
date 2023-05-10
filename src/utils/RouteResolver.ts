@@ -32,6 +32,8 @@ export class RouteResolver {
 
         for (const appName in this.routes["apps"]) {
             const app = this.routes["apps"][appName];
+            if ((app as any).disabled == true) continue;
+
             Logger.series(`Binding ${appName}`);
 
             const entry = path.join(
@@ -39,12 +41,15 @@ export class RouteResolver {
                 app.entry
             )
 
+            console.log(`${app.invoke} ${entry} ${app.args}`)
+
             // Start the application using app.invoke
-            childprocess.spawn(app.invoke, [entry], {
+            childprocess.spawn(app.invoke, [ ...app.args.split(" "), entry], {
                 env: {
                     ...process.env,
                     PORT: app.port.toString()
-                }
+                },
+                // stdio: "inherit"
             });
 
             // Bind the direct routes.
@@ -52,9 +57,17 @@ export class RouteResolver {
                 // @ts-ignore
                 router[app.directs[directName].method.toLowerCase()]("/api" + directName, (req: Express.Request, res: Express.Response) => {
                     // Resend the request to localhost as if it were a proxy
-                    fetch(`http://127.0.0.1:${app.port}/${app.directs[directName].alias}`, {
+
+                    let cfg: any = {
                         method: req.method,
-                        body: req.body
+                    }
+
+                    if (req.method === "POST") {
+                        cfg.body = req.body;
+                    }
+
+                    fetch(`http://127.0.0.1:${app.port}/${app.directs[directName].alias}`, {
+                        ...cfg
                     }).then(async (response) => {
                         for (const header of response.headers.keys()) {
                             res.setHeader(header, response.headers.get(header)!);

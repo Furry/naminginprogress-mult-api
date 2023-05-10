@@ -5,6 +5,7 @@ import { BaseRoute } from "./routes/scaffolding/BaseRoute.js";
 import { RouteResolver } from "./utils/RouteResolver.js";
 import util from 'util'
 import { Database } from "./utils/Database.js";
+import cors from "cors";
 
 // Load our environment variables
 dotenv.config();
@@ -13,6 +14,9 @@ dotenv.config();
 const server = express.default();
 
 server.use(express.raw({ type: "*/*", limit: "2gb" }));
+server.use(cors({
+    allowedHeaders: "*"
+}))
 
 // Establish our middleware for the server
 server.use("/", BaseRoute(null as any));
@@ -20,5 +24,5 @@ server.use("/", new RouteResolver("mappings.json").generate());
 
 new Database(process.env.MONGO_URI || "").connect().then(() => {
     Logger.log("Connected to database.");
-    server.listen(process.env.PORT || 3000);
+    server.listen(process.env.PORT || 8080);
 })
