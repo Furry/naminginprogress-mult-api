@@ -9,9 +9,7 @@
 </head>
 
 <body>
-    <h2>File Upload & Image Preview</h2>
-    <p class="lead">No Plugins <b>Just Javascript</b></p>
-
+    <h2>Naming In Progress Uploader</h2>
     <!-- Upload  -->
     <form id="file-upload-form" class="uploader">
         <input id="file-upload" type="file" name="fileUpload" accept="image/*" />
@@ -227,7 +225,6 @@
 
 <script>
     // File Upload
-    // 
     function ekUpload() {
         function Init() {
 
@@ -333,19 +330,24 @@
                 // Progress bar
                 pBar.style.display = 'inline';
 
-                const url = "http://naminginprogress.com/api/files/upload";
+                const url = "http://localhost:8080/api/files/upload";
                 const formData = new FormData();
                 formData.append('file', file);
 
                 // Use Fetch API to upload file
                 try {
+                    // Get the extension
+                    const ext = file.name.split('.').pop();
+                    // Remove the extension from the file name
+                    const name = file.name.replace(`.${ext}`, '');
+
                     const response = await fetch(url, {
                         method: 'POST',
                         headers: {
-                            'X-File-Name': file.name,
+                            "X-File-Type": ext,
+                            'X-File-Name': name,
                             'X-File-Size': file.size
                         },
-                        // Send it as raw data not form data
                         body: file
                     });
 
@@ -364,12 +366,13 @@
                     });
 
                     if (response.ok) {
-                        // Everything is good!
-                        // progress.className = "success";
-                        // document.location.reload(true);
+                        // Replace the text inside messages with the response body
+                        const data = await response.json();
+                        output(data.url);
+                        pBar.style.display = 'none';
                     } else {
                         // Handle errors
-                        // progress.className = "failure";
+                        progress.className = "failure";
                     }
                 } catch (error) {
                     console.error('Error:', error);
