@@ -330,7 +330,8 @@
                 // Progress bar
                 pBar.style.display = 'inline';
 
-                const url = "http://localhost:8080/api/files/upload";
+                const url = `${window.location.protocol}//${window.location.host}/api/files/upload`;
+
                 const formData = new FormData();
                 formData.append('file', file);
 
