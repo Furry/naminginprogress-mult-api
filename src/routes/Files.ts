@@ -1,12 +1,11 @@
 import { raw, Router } from "express";
-import { Database } from "../utils/Database.js";
 import Logger from "../utils/Logger.js";
 import path from "path";
 import * as crypt from "../utils/Crypt.js";
 import * as mime from "mime-types";
 import * as fs from "fs";
 
-export function Files(db: Database) {
+export function Files() {
     const router = Router();
 
     router.post("/upload", (req, res) => {

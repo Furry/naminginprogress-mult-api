@@ -1,12 +1,11 @@
 import { Router } from "express";
-import { Database } from "../../utils/Database.js";
 import Logger from "../../utils/Logger.js";
 import { Api } from "./Api.js";
 import { Static } from "./Static.js";
 import fs from "fs";
 import path from "path";
 
-export function BaseRoute(db: Database) {
+export function BaseRoute() {
     const router = Router();
 
     // Establish our base middleware for logging requests.
@@ -16,13 +15,6 @@ export function BaseRoute(db: Database) {
         if (process.env.ISDEV === "true") {
             Logger.series("Incoming Request", req.method, req.url, ip);
         }
-
-        Database.Instance.col("requests").insertOne({
-            at: Date.now(),
-            ip,
-            method: req.method,
-            url: req.url
-        })
 
         next();
     });
