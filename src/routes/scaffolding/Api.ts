@@ -5,7 +5,7 @@ import { Files } from "../Files.js";
 export function Api() {
     const router = Router();
 
-    router.use("/files", Files(db));
+    router.use("/files", Files());
 
     return router;
 }
